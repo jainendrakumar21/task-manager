@@ -1,29 +1,17 @@
-version: '2'
+version: '3'
 
 services:
-  nginx:
-    image: nginx:1.13
-    container_name: task-manager-nginx
-    restart: always
-    ports:
-      - 80:80
-      - 443:443
-    volumes:
-      - ./nginx/conf.d:/etc/nginx/conf.d
-      - ./whoops.html:/task-manager/whoops.html    
   mysql-db:
     image: mysql:latest
-    container_name: docker-mysql
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=task_manager
     volumes:
       - /home/ubuntu/db-storage:/var/lib/mysql
-  spring-boot-task-manager-app:
+  task-manager:
     image: jainendrakumar21/task-manager:latest
     container_name: task-manager-app
     depends_on:
-      - nginx
       - mysql-db
     ports:
       - 8080:8080
@@ -34,4 +22,3 @@ services:
       - DATABASE_PASSWORD=root
       - DATABASE_NAME=task_manager
       - DATABASE_PORT=3306
-    
