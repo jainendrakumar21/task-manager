@@ -21,12 +21,11 @@ services:
       - /home/ubuntu/db-storage:/var/lib/mysql
   spring-boot-task-manager-app:
     image: jainendrakumar21/task-manager:latest
-    container_name: task-manager-app
     depends_on:
       - nginx
       - mysql-db
     ports:
-      - 8080:8080
+      - 8080
     restart: always
     environment:
       - DATABASE_HOST=docker-mysql
