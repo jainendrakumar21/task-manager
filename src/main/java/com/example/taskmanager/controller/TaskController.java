@@ -1,11 +1,15 @@
 package com.example.taskmanager.controller;
 
+import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +28,8 @@ import com.example.taskmanager.repo.TaskRepository;
 @RestController
 @RequestMapping("/tasks")
 public class TaskController {
+	@Autowired
+	HttpServletRequest request;
 	@Autowired
 	private TaskRepository taskrepo;
 
@@ -101,5 +107,46 @@ public class TaskController {
 		}
 		return response;
 	}
+
+	@GetMapping("/welcome")
+	public ServiceResponse<Map<String, String>> welcomeUser() {
+		final ServiceResponse<Map<String, String>> response = new ServiceResponse<>();
+		Map<String, String> headerDetails = getRequestHeadersInMap(request);
+		response.setData(headerDetails);
+		return response;
+	}
+	@GetMapping("/ip")
+	public String getClientIp() {
+		String ip = getClientIp(request);
+		return "Your current Public IP address: " + ip;
+	}
+
+	private Map<String, String> getRequestHeadersInMap(HttpServletRequest request) {
+
+		Map<String, String> result = new HashMap<>();
+
+		Enumeration<String> headerNames = request.getHeaderNames();
+		while (headerNames.hasMoreElements()) {
+			String key = (String) headerNames.nextElement();
+			String value = request.getHeader(key);
+			System.out.println(value);
+			result.put(key, value);
+		}
+
+		return result;
+	}
+	 private static String getClientIp(HttpServletRequest request) {
+
+	        String remoteAddr = "";
+
+	        if (request != null) {
+	            remoteAddr = request.getHeader("X-FORWARDED-FOR");
+	            if (remoteAddr == null || "".equals(remoteAddr)) {
+	                remoteAddr = request.getRemoteAddr();
+	            }
+	        }
+
+	        return remoteAddr;
+	    }
 
 }
