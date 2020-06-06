@@ -1,0 +1,13 @@
+/** This is a comment that the browser will ignore,
+* Put your CSS code into this file
+*/
+/*for changing the layout of h1 */
+h1 {
+	/* chosing sans-serif as font type */
+	font-family: sans-serif;
+	/* changing the text color */
+	color: #fefefe;
+	/* creating border around element */
+	border: 1px solid black;
+	background-color: #3e5b99;
+}
