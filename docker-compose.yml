@@ -20,7 +20,7 @@ services:
     volumes:
       - /home/ubuntu/db-storage:/var/lib/mysql
   spring-boot-task-manager-app:
-    image: jainendrakumar21/task-manager:latest
+    build: .
     depends_on:
       - nginx
       - mysql-db
